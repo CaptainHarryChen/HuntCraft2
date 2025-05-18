@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>零知识证明验证</title>
+  <script>
+    // 步骤1：上传验证密钥
+    async function uploadKey() {
+      const vkeyJson = document.getElementById('vkey-data').value;
+      
+      try {
+        const vkey = JSON.parse(vkeyJson);
+        const response = await fetch('http://localhost:3000/upload-key', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ verificationKey: vkey })
+        });
+        
+        const result = await response.json();
+        document.getElementById('upload-result').textContent = JSON.stringify(result, null, 2);
+      } catch (error) {
+        document.getElementById('upload-result').textContent = 'Error: ' + error.message;
+      }
+    }
+    
+    // 步骤2：验证证明
+    async function verifyProof() {
+      const proofJson = document.getElementById('proof-data').value;
+      const publicJson = document.getElementById('public-data').value;
+      
+      try {
+        const proof = JSON.parse(proofJson);
+        const publicSignals = JSON.parse(publicJson);
+        
+        const response = await fetch('http://localhost:3000/verify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ 
+            proof: proof,
+            publicSignals: publicSignals
+          })
+        });
+        
+        const result = await response.json();
+        document.getElementById('verify-result').textContent = JSON.stringify(result, null, 2);
+      } catch (error) {
+        document.getElementById('verify-result').textContent = 'Error: ' + error.message;
+      }
+    }
+  </script>
+  <style>
+    textarea { width: 100%; height: 200px; }
+    button { margin: 10px 0; padding: 5px 10px; }
+    pre { background: #f4f4f4; padding: 10px; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <h1>零知识证明验证工具</h1>
+  
+  <h2>步骤1：上传验证密钥</h2>
+  <p>粘贴vkey.json内容：</p>
+  <textarea id="vkey-data"></textarea>
+  <button onclick="uploadKey()">上传验证密钥</button>
+  <pre id="upload-result"></pre>
+  
+  <h2>步骤2：验证证明</h2>
+  <p>粘贴proof.json内容：</p>
+  <textarea id="proof-data"></textarea>
+  <p>粘贴public.json内容：</p>
+  <textarea id="public-data"></textarea>
+  <button onclick="verifyProof()">验证证明</button>
+  <pre id="verify-result"></pre>
+</body>
+</html>
