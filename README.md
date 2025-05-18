@@ -1,6 +1,6 @@
 # UE5 VR Game Project
 
-A virtual reality game project developed in Unreal Engine 5.5, integrating blockchain technology, zero-knowledge authentication, and AI-driven interactions. The project must be run within Unreal Engine as it is not yet packaged for standalone distribution.
+A virtual reality game project developed in Unreal Engine 5.5, integrating blockchain technology, zero-knowledge DID authentication, and AI-driven interactions. The project must be run within Unreal Engine as it is not yet packaged for standalone distribution.
 
 ![editor](./img/editor.png)
 
